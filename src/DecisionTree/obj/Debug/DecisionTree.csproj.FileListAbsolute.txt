@@ -1,0 +1,5 @@
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\obj\Debug\ResolveAssemblyReference.cache
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\bin\Debug\DecisionTree.dll
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\bin\Debug\DecisionTree.pdb
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\obj\Debug\DecisionTree.dll
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\obj\Debug\DecisionTree.pdb

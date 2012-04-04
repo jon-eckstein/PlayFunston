@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleDecisionTree;
+using DecisionTree;
 
 namespace DecisionTreeTests
 {
@@ -14,8 +14,8 @@ namespace DecisionTreeTests
         public void NewNodeShouldBeAdded()
         {
             var head = new TreeNode(null, null, double.NaN);
-            var tree = new SimpleTree(head);
-            tree.AddNode(new double[] { 0, 1, 3 });
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3 });
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
         }
@@ -24,9 +24,9 @@ namespace DecisionTreeTests
         public void MultipleNodesWithDiscreteValuesShouldBeAdded()
         {
             var head = new TreeNode(null, null, double.NaN);
-            var tree = new SimpleTree(head);
-            tree.AddNode(new double[] { 0, 1, 3 });
-            tree.AddNode(new double[] { 1, 5, 6 });
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3 });
+            tree.AddBranch(new double[] { 1, 5, 6 });
 
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
@@ -42,11 +42,11 @@ namespace DecisionTreeTests
         public void NodesWithSameValueShouldBranchOffParent()
         {
             var head = new TreeNode(null, null, double.NaN);
-            var tree = new SimpleTree(head);
-            tree.AddNode(new double[] { 0, 1, 3, 1 });
-            tree.AddNode(new double[] { 1, 5, 6, 0 });
-            tree.AddNode(new double[] { 1, 9, 8, -1 });
-            tree.AddNode(new double[] { 2, 5, 4, -1 });
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3, 1 });
+            tree.AddBranch(new double[] { 1, 5, 6, 0 });
+            tree.AddBranch(new double[] { 1, 9, 8, -1 });
+            tree.AddBranch(new double[] { 2, 5, 4, -1 });
             
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
@@ -65,11 +65,11 @@ namespace DecisionTreeTests
         public void ComputeShouldGiveCorrectAnswer()
         {
             var head = new TreeNode(null, null, double.NaN);
-            var tree = new SimpleTree(head);
-            tree.AddNode(new double[] { 0, 1, 3, 1 });
-            tree.AddNode(new double[] { 1, 5, 6, 0 });
-            tree.AddNode(new double[] { 1, 9, 8, -1 });
-            tree.AddNode(new double[] { 2, 5, 4, -1 });
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3, 1 });
+            tree.AddBranch(new double[] { 1, 5, 6, 0 });
+            tree.AddBranch(new double[] { 1, 9, 8, -1 });
+            tree.AddBranch(new double[] { 2, 5, 4, -1 });
 
             var answer = tree.Compute(new double[] {0, 1, 2});
             Assert.AreEqual(1, answer);

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using SimpleDecisionTree;
+using DecisionTree;
 using ShouldITakeMyDogToFortFunstonNow.Models;
 
 namespace ShouldITakeMyDogToFortFunstonNow.Services
 {
     public class DecisionService : IDecisionService
     {
-        private SimpleTree tree;
+        private SimpleDecisionTree tree;
         private IRepoService repoService;
         private static object treeLocker = new object();
 
@@ -21,7 +21,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
 
         private void InitDecisionTree()
         {
-            tree = new SimpleTree();
+            tree = new SimpleDecisionTree();
             IEnumerable<CurrentObservation> data = null;
             data = repoService.GetAllObservations();
 
@@ -57,7 +57,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
             lock (treeLocker)
             {
                 foreach (var obs in trainingData)                
-                    tree.AddNode(obs.ToDoubleArray());                
+                    tree.AddBranch(obs.ToDoubleArray());                
             }
         }
 

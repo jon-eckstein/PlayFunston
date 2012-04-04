@@ -118,9 +118,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleDecisionTree\SimpleDecisionTree.csproj">
+    <ProjectReference Include="..\DecisionTree\DecisionTree.csproj">
       <Project>{FC8E36C0-EFDD-4E72-A6F9-338000351325}</Project>
-      <Name>SimpleDecisionTree</Name>
+      <Name>DecisionTree</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

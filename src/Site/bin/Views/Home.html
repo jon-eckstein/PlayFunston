@@ -22,8 +22,7 @@
 	.maybe{
             color: #c09853;
 	}	
-
-
+	
 	.answer{
 	   margin-top:50px;
 	   font-size: 100px; 		
@@ -78,9 +77,9 @@
 			    <dt>Condtions</dt>
 			    <dd data-bind="text: condition(), css: { maybe : conditionCode() == 0, no : conditionCode() > 1 }" /></dd>
 			    <dt>Wind</dt>
-			    <dd data-bind="text: windMph() + 'MPH', css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
+			    <dd data-bind="text: windText(), css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
 			    <dt>Temp</dt>       
-			    <dd data-bind="text: temp(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
+			    <dd data-bind="text: tempText(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
                 <!--
 			    <dt>Tide</dt>
 			    <dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
@@ -105,6 +104,7 @@
       $(function () {
 
           var viewModel = {
+              self: this,
               isComplete: ko.observable(false),
               isError: ko.observable(false),
               obsTime: ko.observable(''),
@@ -114,7 +114,9 @@
               windChill: ko.observable(0),
               windMph: ko.observable(0),
               windGustMph: ko.observable(0),
-              goFunston: ko.observable(5)
+              goFunston: ko.observable(5),
+              windText: ko.observable(''),
+              tempText: ko.observable('')
           };
 
           console.log(viewModel);
@@ -134,6 +136,19 @@
                   viewModel.windMph(result.WindMph);
                   viewModel.windGustMph(result.WindGustMph);
                   viewModel.goFunston(result.GoFunston);
+                  if (result.WindGustMph > 0) {
+                      viewModel.windText(result.WindMph + ' MPH gusting to ' + result.WindGustMph + ' MPH')
+                  } else {
+                      viewModel.windText(result.WindMph + ' MPH');
+                  }
+
+                  if (result.WindChill > 0) {
+                      viewModel.tempText(result.Temp + 'F (feels like ' + result.WindChill + 'F with wind chill)');
+                  } else {
+                      viewModel.tempText(result.Temp + 'F');
+                  }
+
+
               },
               error: function (result) {
                   viewModel.isError(true);

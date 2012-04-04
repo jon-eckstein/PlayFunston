@@ -70,20 +70,20 @@
 			</div>
 		</div>
 		<div data-bind="if: isError()">
-			<h1 class="no">Error occured getting weather data. Try again or go to Fort Funston at own risk.</h1>
+			<h1 class="no">Error occured getting weather data. Try again or go to Fort Funston at your own risk.</h1>
 		</div>		
 		<div style="margin-top:100px;font-size:20px">
-		      <dl xmlns="http://www.w3.org/1999/xhtml" class="dl-horizontal myDl"  >
+		    <dl xmlns="http://www.w3.org/1999/xhtml" class="dl-horizontal myDl"  >
               
-			<dt>Condtions</dt>
-			<dd data-bind="text: condition(), css: { maybe : conditionCode() == 0, no : conditionCode() > 1 }" /></dd>
-			<dt>Wind</dt>
-			<dd data-bind="text: windMph() + 'MPH', css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
-			<dt>Temp</dt>       
-			<dd data-bind="text: temp(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
-            <!--
-			<dt>Tide</dt>
-			<dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
+			    <dt>Condtions</dt>
+			    <dd data-bind="text: condition(), css: { maybe : conditionCode() == 0, no : conditionCode() > 1 }" /></dd>
+			    <dt>Wind</dt>
+			    <dd data-bind="text: windMph() + 'MPH', css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
+			    <dt>Temp</dt>       
+			    <dd data-bind="text: temp(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
+                <!--
+			    <dt>Tide</dt>
+			    <dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
             </dl>
 		     <div data-bind="text: obsTime()" style="font-size:small"></div>
 	       </div>

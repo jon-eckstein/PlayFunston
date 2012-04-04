@@ -11,6 +11,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
     {
         private SimpleTree tree;
         private MongoDbRepoService repoService;
+        private static object treeLocker = new object();
 
         public DecisionService(MongoDbRepoService repo)
         {
@@ -31,10 +32,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
                     repoService.AddObservation(obs);
             }
 
-            foreach (var obs in data)
-            {
-                tree.AddNode(obs.ToDoubleArray());
-            }
+            TrainTree(data);
         }
 
 
@@ -50,6 +48,16 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
                 //if this situation occurs then the tree didn't have enough info to process...                
                 //TODO: come up with an answer somehow...
                 return -5;
+            }
+        }
+
+        private void TrainTree(IEnumerable<CurrentObservation> trainingData)
+        {
+            //let the tree learn...
+            lock (treeLocker)
+            {
+                foreach (var obs in trainingData)                
+                    tree.AddNode(obs.ToDoubleArray());                
             }
         }
 

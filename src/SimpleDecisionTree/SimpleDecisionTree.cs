@@ -62,10 +62,8 @@ namespace SimpleDecisionTree
                 //if there exist a child with the same value then just movbe to the next value..
                 var sameValNode = currentNode.Children.FirstOrDefault(n => n.Value == val);
                 //if they're equal then use this child...
-                if (sameValNode != null)
-                {
-                    currentNode = sameValNode;
-                }
+                if (sameValNode != null)               
+                    currentNode = sameValNode;                
                 else
                 {
                     //if not get the child with the closest value...
@@ -83,7 +81,5 @@ namespace SimpleDecisionTree
                 return currentNode.Children.First().Value;
 
         }
-
-
     }
 }

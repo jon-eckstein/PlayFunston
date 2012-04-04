@@ -80,11 +80,11 @@
       <HintPath>packages\SassAndCoffee.Core.1.0.1\lib\net40\V8Bridge.Interface.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>   
+  <ItemGroup>
     <Content Include="Assets\knockout\knockout-2.0.0.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dblocation.txt" />
+    <None Include="dblocation.txt" />
     <Content Include="Views\Home.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -7,13 +7,13 @@ using ShouldITakeMyDogToFortFunstonNow.Models;
 
 namespace ShouldITakeMyDogToFortFunstonNow.Services
 {
-    public class DecisionService
+    public class DecisionService : IDecisionService
     {
         private SimpleTree tree;
-        private MongoDbRepoService repoService;
+        private IRepoService repoService;
         private static object treeLocker = new object();
 
-        public DecisionService(MongoDbRepoService repo)
+        public DecisionService(IRepoService repo)
         {
             repoService = repo;
             InitDecisionTree();

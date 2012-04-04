@@ -12,7 +12,7 @@ using ShouldITakeMyDogToFortFunstonNow.Models;
 
 namespace ShouldITakeMyDogToFortFunstonNow.Services
 {
-    public class MongoDbRepoService
+    public class MongoDbRepoService : IRepoService
     {
         private static readonly string MODEL_NAMESPACE = "ShouldITakeMyDogToFortFunstonNow.Models";
         private static readonly string DATABASE_NAME = "fortfunstonweather";

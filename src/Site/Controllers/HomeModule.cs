@@ -17,7 +17,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
 
         private readonly string WEATHER_URI = "http://api.wunderground.com/api/f88d918861288deb/conditions/tide/q/pws:KCASANFR69.json";
 
-        public HomeModule(DecisionService ds)
+        public HomeModule(IDecisionService ds)
         {               
             Get["/observation"] = (ctx) =>
             {

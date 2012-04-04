@@ -18,23 +18,9 @@ namespace ShouldITakeMyDogToFortFunstonNow
         }
        
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
-        {
-            //container.Register<DecisionService>().AsSingleton();
-            container.Register<DecisionService>().AsSingleton();
-            container.Register<MongoDbRepoService>().AsSingleton();
-            
-            /*
-            var connString = ConfigurationManager.AppSettings["MONGOHQ_URL"];
-            var databaseName = connString.Split('/').Last();
-            var server = MongoServer.Create(connString);
-            var database = server.GetDatabase(databaseName);
-
-            if (!database.CollectionExists("Messages"))
-                database.CreateCollection("Messages");
-
-            container.Register<MongoServer>(server);
-            container.Register<MongoDatabase>(database);
-            container.Register<MongoCollection<Message>>(database.GetCollection<Message>("Messages"));*/
+        {            
+            container.Register<IDecisionService,DecisionService>().AsSingleton();
+            container.Register<IRepoService,MongoDbRepoService>().AsSingleton();                       
         }
 
     }

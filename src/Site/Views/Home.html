@@ -83,14 +83,15 @@
 			<dd data-bind="text: temp(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
             <!--
 			<dt>Tide</dt>
-			<dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>
-		      </dl>
-		      <div data-bind="text: app.obsTimeText()" style="font-size:small"></div>
-	       </div>-->
+			<dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
+            </dl>
+		     <div data-bind="text: obsTime()" style="font-size:small"></div>
+	       </div>
+           
 
 		<div style="margin-top:90px">
 			<dl>
-			   <dt>Webcam:</dt><br />
+			   <dt>Webcam:</dt>
 			   <dd style="margin-left:-5px"><img src="http://www.flyfunston.org/newwebcam/panosmall.jpg"  hspace=5 vspace=5 border="0"></dd>
 			   <dd style="margin-left:0px">webcam provided by <a href="http://www.flyfunston.org">flying feathers hang gliding club</a></dd>
 			</dl>
@@ -106,13 +107,14 @@
           var viewModel = {
               isComplete: ko.observable(false),
               isError: ko.observable(false),
+              obsTime: ko.observable(''),
               condition: ko.observable(''),
-              conditionCode : ko.observable(0),
+              conditionCode: ko.observable(0),
               temp: ko.observable(0),
               windChill: ko.observable(0),
               windMph: ko.observable(0),
               windGustMph: ko.observable(0),
-              goFunston: ko.observable(5)              
+              goFunston: ko.observable(5)
           };
 
           console.log(viewModel);
@@ -124,6 +126,7 @@
               type: 'GET',
               success: function (result) {
                   console.log(result);
+                  viewModel.obsTime(result.ObsDateDescription);
                   viewModel.condition(result.Condition);
                   viewModel.conditionCode(result.ConditionCode)
                   viewModel.temp(result.Temp);

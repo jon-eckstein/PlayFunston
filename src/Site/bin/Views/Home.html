@@ -59,32 +59,35 @@
 	</div>
 	<div data-bind="css: { visible: isComplete() }" class="hidden"  >
 		<div data-bind="if: !isError()">
-			<div data-bind="if: weatherEvaler.totalScore() >= 0" >
+			<div data-bind="if: goFunston() == 1" >
 			   <h3 class="answer yes">Yes</h3>
 			</div>
-			<div data-bind="if: weatherEvaler.totalScore() <= -3" >
+			<div data-bind="if: goFunston() == -1" >
 			   <h3 class="answer no">No</h3>
 			</div>		
-			<div data-bind="if: weatherEvaler.totalScore() < 0 && weatherEvaler.totalScore() > -3" >
+			<div data-bind="if: goFunston() == 0" >
 			   <h3 class="answer maybe">Maybe</h3>
 			</div>
 		</div>
-		<div data-bind="if: app.isError()">
+		<div data-bind="if: isError()">
 			<h1 class="no">Error occured getting weather data. Try again or go to Fort Funston at own risk.</h1>
 		</div>		
 		<div style="margin-top:100px;font-size:20px">
 		      <dl xmlns="http://www.w3.org/1999/xhtml" class="dl-horizontal myDl"  >
+              
 			<dt>Condtions</dt>
-			<dd data-bind="text: condition() , css: { maybe : conditionCode() < 0, no : conditionCode() < -1 }" /></dd>
+			<dd data-bind="text: condition(), css: { maybe : conditionCode() == 0, no : conditionCode() > 1 }" /></dd>
 			<dt>Wind</dt>
-			<dd data-bind="text: app.windText(), css: { maybe : weatherEvaler.windScore() < 0, no : weatherEvaler.windScore() < -1 }" /></dd>
-			<dt>Temp</dt>
-			<dd data-bind="text: app.tempText(), css: { maybe : weatherEvaler.tempScore() < 0, no : weatherEvaler.tempScore() < -1 }" /></dd>
+			<dd data-bind="text: windMph() + 'MPH', css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
+			<dt>Temp</dt>       
+			<dd data-bind="text: temp(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
+            <!--
 			<dt>Tide</dt>
-			<dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>
-		      </dl>
-		      <div data-bind="text: app.obsTimeText()" style="font-size:small"></div>
+			<dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
+            </dl>
+		     <div data-bind="text: obsTime()" style="font-size:small"></div>
 	       </div>
+           
 
 		<div style="margin-top:90px">
 			<dl>
@@ -104,13 +107,14 @@
           var viewModel = {
               isComplete: ko.observable(false),
               isError: ko.observable(false),
+              obsTime: ko.observable(''),
               condition: ko.observable(''),
-              conditionCode : ko.observable(0),
+              conditionCode: ko.observable(0),
               temp: ko.observable(0),
               windChill: ko.observable(0),
               windMph: ko.observable(0),
               windGustMph: ko.observable(0),
-              goFunston: ko.observable(5)              
+              goFunston: ko.observable(5)
           };
 
           console.log(viewModel);
@@ -122,13 +126,14 @@
               type: 'GET',
               success: function (result) {
                   console.log(result);
+                  viewModel.obsTime(result.ObsDateDescription);
                   viewModel.condition(result.Condition);
                   viewModel.conditionCode(result.ConditionCode)
                   viewModel.temp(result.Temp);
                   viewModel.windChill(result.WindChill);
                   viewModel.windMph(result.WindMph);
                   viewModel.windGustMph(result.WindGustMph);
-                  viewModel.goFunston(result.GoFunstion);
+                  viewModel.goFunston(result.GoFunston);
               },
               error: function (result) {
                   viewModel.isError(true);

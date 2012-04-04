@@ -15,7 +15,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
         [Key]
         public object Id { get; set; }        
         //[Column(CanBeNull=true)]
-        public DateTime Day { get; set; }
+        public string ObsDateDescription { get; set; }
         //[Column(CanBeNull=true)]
         private string condition;
         public string Condition 

@@ -26,7 +26,8 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
                 var obs = GetWeatherObservation();
                 if (obs == null)                
                     return Response.AsError(Nancy.HttpStatusCode.ServiceUnavailable, "Unable to get weather data.");
-                                   
+
+                currentObservation.ObsDateDescription = obs.observation_time.Value;
                 currentObservation.Condition = obs.weather.Value;
                 currentObservation.WindMph = obs.wind_mph.Value;
                 currentObservation.Temp = obs.temp_f.Value;

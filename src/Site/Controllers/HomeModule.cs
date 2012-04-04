@@ -23,9 +23,13 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
             {
                 var currentObservation = new CurrentObservation();
 
-                var obs = GetWeatherObservation();
-                if (obs == null)                
+                var raw = GetRawWeatherData();
+                if (raw == null)                
                     return Response.AsError(Nancy.HttpStatusCode.ServiceUnavailable, "Unable to get weather data.");
+
+                var obs = GetWeatherObservation(raw);
+                if (obs == null)
+                    return Response.AsError(Nancy.HttpStatusCode.ServiceUnavailable, "Unable to get observation data.");
 
                 currentObservation.ObsDateDescription = obs.observation_time.Value;
                 currentObservation.Condition = obs.weather.Value;
@@ -40,6 +44,18 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
                     currentObservation.WindChill = windchill;
                 else currentObservation.WindChill = 0;
 
+                var tides = GetTideSet(raw);
+                if (tides != null)
+                {
+                    var nextLowTide = (DateTime?)GetNextLowTide(tides.tideSummary);
+                    if (nextLowTide.HasValue)
+                    {
+                        currentObservation.NextLowTide = nextLowTide.Value;
+                        currentObservation.HoursUntilNextLowTide = (currentObservation.NextLowTide - DateTime.UtcNow).TotalHours;
+                    }
+                }
+
+
                 currentObservation.GoFunston = (int)ds.GetDecision(currentObservation);
                 return Response.AsJson(currentObservation);
             };
@@ -51,7 +67,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
 
         }
 
-        private dynamic GetWeatherObservation()
+        private dynamic GetRawWeatherData()
         {
             try
             {
@@ -64,12 +80,44 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
                     return null;
 
                 dynamic json = JObject.Parse(txtResponse);
-                return (dynamic)json.current_observation;
+                return (dynamic)json;
             }
             catch
             {
                 return null;
             }
+        }
+
+        private dynamic GetWeatherObservation(dynamic rawWeather)
+        {
+            return (dynamic)rawWeather.current_observation;
+        }
+
+        private dynamic GetTideSet(dynamic rawWeather)
+        {
+            if (rawWeather.tide.tideSummary.Count > 0)
+                return (dynamic)rawWeather.tide;
+            else
+                return null;
+        }
+
+        private DateTime? GetNextLowTide(dynamic tideSummary)
+        {
+            foreach (var tide in tideSummary)
+            {
+                if (tide.data.type.Value == "Max Ebb")
+                {                    
+                    var date = new DateTime(Convert.ToInt32(tide.utcdate.year.Value), 
+                                            Convert.ToInt32(tide.utcdate.mon.Value), 
+                                            Convert.ToInt32(tide.utcdate.mday.Value),
+                                            Convert.ToInt32(tide.utcdate.hour.Value),
+                                            Convert.ToInt32(tide.utcdate.min.Value),
+                                            0,DateTimeKind.Utc);
+                    return date;
+                }
+            }
+
+            return null;
         }
 
     }

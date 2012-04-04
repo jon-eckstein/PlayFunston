@@ -11,13 +11,12 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
     [Serializable]    
     public class CurrentObservation
     {
-        //[Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        [Key]
-        public object Id { get; set; }        
-        //[Column(CanBeNull=true)]
-        public string ObsDateDescription { get; set; }
-        //[Column(CanBeNull=true)]
         private string condition;
+        private double hoursUntilNextLowTide = -1;
+
+        [Key]
+        public object Id { get; set; }                
+        public string ObsDateDescription { get; set; }                
         public string Condition 
         {
             get { return condition; }
@@ -28,21 +27,21 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
                     ConditionCode = GetConditionCode(condition);
             } 
         }
-        //[Column(CanBeNull = false)]
-        public int ConditionCode { get; set; }
-        //[Column(CanBeNull = false)]
-        public double WindMph { get; set; }
-        //[Column]
-        public double WindGustMph { get; set; }
-        //[Column(CanBeNull = false)]
-        public double Temp {get;set;}
-        //[Column]
-        public double WindChill { get; set; }
-        //[Column(CanBeNull=true)]
+
+        public double HoursUntilNextLowTide 
+        {
+            get { return hoursUntilNextLowTide; }
+            set { hoursUntilNextLowTide = value; } 
+        }
+
+        public int ConditionCode { get; set; }        
+        public double WindMph { get; set; }        
+        public double WindGustMph { get; set; }        
+        public double Temp {get;set;}        
+        public double WindChill { get; set; }        
         public DateTime NextLowTide { get; set; }        
         public int WeatherScore { get; set; }        
-        public int TideScore { get; set; }
-        //[Column(CanBeNull = false)]
+        public int TideScore { get; set; }        
         public int GoFunston { get; set; }
 
         public CurrentObservation() { }

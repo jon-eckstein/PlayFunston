@@ -79,10 +79,9 @@
 			    <dt>Wind</dt>
 			    <dd data-bind="text: windText(), css: { maybe : windMph() < 25 && windMph() > 15 , no : windMph() > 25  }" /></dd>
 			    <dt>Temp</dt>       
-			    <dd data-bind="text: tempText(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>
-                <!--
+			    <dd data-bind="text: tempText(), css: { maybe : temp() > 45 && temp() < 60, no : temp() < 45 }" /></dd>                
 			    <dt>Tide</dt>
-			    <dd data-bind="text: app.tideText(), css: { maybe : tideEvaler.totalScore() < 0, no : tideEvaler.totalScore() < -1 }" /></dd>-->
+			    <dd data-bind="text: tideText(), css: { maybe : tideHours() > 10, no : tideHours() > 18 }" /></dd>
             </dl>
 		     <div data-bind="text: obsTime()" style="font-size:small"></div>
 	       </div>
@@ -116,7 +115,10 @@
               windGustMph: ko.observable(0),
               goFunston: ko.observable(5),
               windText: ko.observable(''),
-              tempText: ko.observable('')
+              tempText: ko.observable(''),
+              tideHours: ko.observable(0),
+              tideText: ko.observable(''),
+
           };
 
           console.log(viewModel);
@@ -146,6 +148,15 @@
                       viewModel.tempText(result.Temp + 'F (feels like ' + result.WindChill + 'F with wind chill)');
                   } else {
                       viewModel.tempText(result.Temp + 'F');
+                  }
+
+                  if(result.HoursUntilNextLowTide > -1)
+                  {
+                    viewModel.tideHours(result.HoursUntilNextLowTide);
+                    viewModel.tideText('Next low tide in ' + result.HoursUntilNextLowTide.toFixed(2)  + ' hours');
+                  }else{
+                    viewModel.tideHours(0);
+                    viewModel.tideText('No tide data available.');
                   }
 
 

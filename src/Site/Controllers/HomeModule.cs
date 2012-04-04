@@ -19,7 +19,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
 
         public HomeModule(DecisionService ds)
         {               
-            Get["/"] = (ctx) =>
+            Get["/observation"] = (ctx) =>
             {
                 var currentObservation = new CurrentObservation();
 
@@ -41,7 +41,13 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
 
                 currentObservation.GoFunston = (int)ds.GetDecision(currentObservation);
                 return Response.AsJson(currentObservation);
-            };            
+            };
+
+            Get["/"] = (ctx) =>
+            {
+                return View["Home"];
+            };
+
         }
 
         private dynamic GetWeatherObservation()

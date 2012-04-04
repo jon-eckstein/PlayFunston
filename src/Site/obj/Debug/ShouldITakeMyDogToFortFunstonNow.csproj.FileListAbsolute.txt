@@ -49,3 +49,5 @@ C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\bin\Newtonsoft.Json.xml
 C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\obj\Debug\ResolveAssemblyReference.cache
 C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\obj\Debug\ShouldITakeMyDogToFortFunstonNow.dll
 C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\obj\Debug\ShouldITakeMyDogToFortFunstonNow.pdb
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\bin\Views\Home.html
+C:\Source\ShouldITakeMyDogToFortFunstonNow\src\Site\bin\assets\knockout\knockout-2.0.0.js

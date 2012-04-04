@@ -13,7 +13,8 @@ namespace ShouldITakeMyDogToFortFunstonNow
     {
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
-            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("scripts"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("Scripts"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("Assets"));
         }
        
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)

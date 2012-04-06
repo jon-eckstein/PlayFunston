@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Should I take my dog to Fort Funston now?</title>
   <link href="Assets/bootstrap/css/bootstrap.css" rel="stylesheet"> 
-  <!--<script src="/application.js" type="text/javascript" charset="utf-8"></script>-->
   <script src="Assets/knockout/knockout-2.0.0.js" type="text/javascript" charset="utf-8"></script>	
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <style type="text/css">
@@ -95,8 +94,17 @@
 			</dl>
 		</div>
        </div>
-
-
+       <!--
+       <div>
+            <p>Would you take your dog to Fort Funston under these conditions? </p>
+            <div id="buttonSet">
+                <button data-bind="click: function() { submitAnswer(1) }" class="btn yes" >Yes</button>  
+                <button data-bind="click: function() { submitAnswer(0) }" class="btn maybe">Maybe</button>  
+                <button data-bind="click: function() { submitAnswer(-1) }" class="btn no">No</button>
+            </div>
+            <div id="submitResult">
+            </div>
+       </div> -->
     </div>	
 </body>
   <script type="text/javascript">
@@ -118,6 +126,17 @@
               tempText: ko.observable(''),
               tideHours: ko.observable(0),
               tideText: ko.observable(''),
+              serverResult: null,
+
+              submitAnswer: function (val) {
+                  this.serverResult.GoFunston = val;
+                  this.serverResult.IsObservedByUser = true;
+                  $.post("/observation", this.serverResult)
+                    .success(function (jqxhr) { console.log(jqxhr); })
+                    .error(function () { alert("error"); });
+
+              },
+              submitResultText : ko.observable('')
 
           };
 
@@ -130,6 +149,7 @@
               type: 'GET',
               success: function (result) {
                   console.log(result);
+                  viewModel.serverResult = result;
                   viewModel.obsTime(result.ObsDateDescription);
                   viewModel.condition(result.Condition);
                   viewModel.conditionCode(result.ConditionCode)
@@ -150,13 +170,12 @@
                       viewModel.tempText(result.Temp + 'F');
                   }
 
-                  if(result.HoursUntilNextLowTide > -1)
-                  {
-                    viewModel.tideHours(result.HoursUntilNextLowTide);
-                    viewModel.tideText('Next low tide in ' + result.HoursUntilNextLowTide.toFixed(2)  + ' hours');
-                  }else{
-                    viewModel.tideHours(0);
-                    viewModel.tideText('No tide data available.');
+                  if (result.HoursUntilNextLowTide > -1) {
+                      viewModel.tideHours(result.HoursUntilNextLowTide);
+                      viewModel.tideText('Next low tide in ' + result.HoursUntilNextLowTide.toFixed(2) + ' hours');
+                  } else {
+                      viewModel.tideHours(0);
+                      viewModel.tideText('No tide data available.');
                   }
 
 

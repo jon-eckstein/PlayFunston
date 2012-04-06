@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="b76e3131-2ed9-4ce6-9aeb-08c00834d0b7" name="jeckstein@JECKSTEINLPT2 2012-04-06 05:52:08" runUser="CARBO\jeckstein" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="732b8e3a-dcc4-4b3b-b84f-7e29f1f7754d">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="jeckstein_JECKSTEINLPT2 2012-04-06 05_52_08">
+      <DeploymentItem filename="C:\Source\ShouldITakeMyDogToFortFunstonNow\src\DecisionTree\bin\Debug\DecisionTree.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-04-06T05:52:08.7738497-07:00" queuing="2012-04-06T05:52:08.9288586-07:00" start="2012-04-06T05:52:08.9348589-07:00" finish="2012-04-06T05:52:09.2768785-07:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ComputeShouldFavorAnObservedBranch" storage="c:\source\shoulditakemydogtofortfunstonnow\src\tests\decisiontreetests\bin\debug\decisiontreetests.dll" id="08b0ebc8-4d39-d057-270d-10ddb3ccae81">
+      <Execution id="5f614ab7-96e5-454e-91c4-33588ea21b2f" />
+      <TestMethod codeBase="C:/Source/ShouldITakeMyDogToFortFunstonNow/src/Tests/DecisionTreeTests/bin/Debug/DecisionTreeTests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="DecisionTreeTests.TreeTests, DecisionTreeTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ComputeShouldFavorAnObservedBranch" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="08b0ebc8-4d39-d057-270d-10ddb3ccae81" executionId="5f614ab7-96e5-454e-91c4-33588ea21b2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="5f614ab7-96e5-454e-91c4-33588ea21b2f" testId="08b0ebc8-4d39-d057-270d-10ddb3ccae81" testName="ComputeShouldFavorAnObservedBranch" computerName="JECKSTEINLPT2" duration="00:00:00.0223104" startTime="2012-04-06T05:52:08.9598604-07:00" endTime="2012-04-06T05:52:09.2598775-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f614ab7-96e5-454e-91c4-33588ea21b2f">
+    </UnitTestResult>
+  </Results>
+</TestRun>

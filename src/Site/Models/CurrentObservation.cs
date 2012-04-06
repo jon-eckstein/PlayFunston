@@ -41,7 +41,8 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
         public double WindChill { get; set; }        
         public DateTime NextLowTide { get; set; }        
         public int WeatherScore { get; set; }        
-        public int TideScore { get; set; }        
+        public int TideScore { get; set; }
+        public bool IsObservedByUser { get; set; }
         public int GoFunston { get; set; }
 
         public CurrentObservation() { }

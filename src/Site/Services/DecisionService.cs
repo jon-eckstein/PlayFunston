@@ -21,18 +21,21 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
 
         private void InitDecisionTree()
         {
-            tree = new SimpleDecisionTree();
-            IEnumerable<CurrentObservation> data = null;
-            data = repoService.GetAllObservations();
-
-            if (data.Count() == 0) //if no data currently in database, insert training data
+            lock (treeLocker)
             {
-                data = GetTrainingData();
-                foreach (var obs in data)
-                    repoService.AddObservation(obs);
-            }
+                tree = new SimpleDecisionTree();
+                IEnumerable<CurrentObservation> data = null;
+                data = repoService.GetAllObservations();
 
-            TrainTree(data);
+                if (data.Count() == 0) //if no data currently in database, insert training data
+                {
+                    data = GetTrainingData();
+                    foreach (var obs in data)
+                        repoService.AddObservation(obs);
+                }
+
+                TrainTree(data);
+            }
         }
 
 
@@ -45,20 +48,32 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
             }
             catch (Exception ex)
             {
-                //if this situation occurs then the tree didn't have enough info to process...                
+                //if this situation occurs if something is wrong with the tree.              
                 //TODO: come up with an answer somehow...
                 return -5;
             }
         }
 
-        private void TrainTree(IEnumerable<CurrentObservation> trainingData)
+        public void AddUserObservation(CurrentObservation obs)
         {
-            //let the tree learn...
-            lock (treeLocker)
-            {
-                foreach (var obs in trainingData)                
-                    tree.AddBranch(obs.ToDoubleArray());                
-            }
+            //get rid of any potentially ridiculous entries.
+            //there could be extreme cases where it's sunny but the wind is blowing too hard to go, but I'm simplifying things for now.
+            //TODO: look into this more carefully.
+            if (obs.ConditionCode == 0 && obs.GoFunston == -1) return;
+            if (obs.ConditionCode == 2 && obs.GoFunston == 1) return;
+            //TODO: need to get rid of any duplicate observations...or maybe figure out a way to add weight to a given observation
+
+            obs.IsObservedByUser = true;
+            repoService.AddObservation(obs);
+            //re-initialize the tree...
+            //TODO, this should happen offline has a background job.
+            InitDecisionTree();
+        }
+
+        private void TrainTree(IEnumerable<CurrentObservation> trainingData)
+        {            
+            foreach (var obs in trainingData)                
+                tree.AddBranch(obs.ToDoubleArray(), obs.IsObservedByUser);                            
         }
 
         private IEnumerable<CurrentObservation> GetTrainingData()

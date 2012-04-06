@@ -6,6 +6,7 @@ using Nancy;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Nancy.ModelBinding;
 using ShouldITakeMyDogToFortFunstonNow.Models;
 using ShouldITakeMyDogToFortFunstonNow.Services;
 using ShouldITakeMyDogToFortFunstonNow.Framework;
@@ -36,11 +37,11 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
                 currentObservation.WindMph = obs.wind_mph.Value;
                 currentObservation.Temp = obs.temp_f.Value;
                 double windGust;
-                if(Double.TryParse(obs.wind_gust_mph.Value,out windGust))
+                if(Double.TryParse(obs.wind_gust_mph.Value.ToString(),out windGust))
                     currentObservation.WindGustMph = windGust;
                 else currentObservation.WindGustMph = 0;
                 double windchill;
-                if (Double.TryParse(obs.windchill_f.Value, out windchill))
+                if (Double.TryParse(obs.windchill_f.Value.ToString(), out windchill))
                     currentObservation.WindChill = windchill;
                 else currentObservation.WindChill = 0;
 
@@ -63,6 +64,25 @@ namespace ShouldITakeMyDogToFortFunstonNow.Controllers
             Get["/"] = (ctx) =>
             {
                 return View["Home"];
+            };
+
+            Post["/observation"] = (postData) =>
+            {
+                try
+                {
+                    var userObs = this.Bind<CurrentObservation>();
+                    if (userObs != null)
+                    {
+                        ds.AddUserObservation(userObs);
+                        return new Response() { StatusCode = Nancy.HttpStatusCode.Accepted };
+                    }
+                    else return Response.AsError(Nancy.HttpStatusCode.BadRequest, "Unable to use observation data.");
+
+                }
+                catch (Exception ex)
+                {
+                    return Response.AsError(Nancy.HttpStatusCode.BadRequest, "Unable to use observation data:" + ex.Message);
+                }
             };
 
         }

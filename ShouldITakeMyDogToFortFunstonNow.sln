@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A07F662-A06B-40F9-A511-DBF13A41C446}"
 	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
+		src\Tests\DecisionTreeTests\Local.testsettings = src\Tests\DecisionTreeTests\Local.testsettings
 		ShouldITakeMyDogToFortFunstonNow.vsmdi = ShouldITakeMyDogToFortFunstonNow.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		src\Tests\DecisionTreeTests\TraceAndTestImpact.testsettings = src\Tests\DecisionTreeTests\TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShouldITakeMyDogToFortFunstonNow", "src\Site\ShouldITakeMyDogToFortFunstonNow.csproj", "{A4377A83-F2A5-43BA-8871-FEA71A9ABD38}"

@@ -15,7 +15,7 @@ namespace DecisionTreeTests
         {
             var head = new TreeNode(null, null, double.NaN);
             var tree = new SimpleDecisionTree(head);
-            tree.AddBranch(new double[] { 0, 1, 3 });
+            tree.AddBranch(new double[] { 0, 1, 3 },false);
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
         }
@@ -25,8 +25,8 @@ namespace DecisionTreeTests
         {
             var head = new TreeNode(null, null, double.NaN);
             var tree = new SimpleDecisionTree(head);
-            tree.AddBranch(new double[] { 0, 1, 3 });
-            tree.AddBranch(new double[] { 1, 5, 6 });
+            tree.AddBranch(new double[] { 0, 1, 3 }, false);
+            tree.AddBranch(new double[] { 1, 5, 6 }, false);
 
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
@@ -43,10 +43,10 @@ namespace DecisionTreeTests
         {
             var head = new TreeNode(null, null, double.NaN);
             var tree = new SimpleDecisionTree(head);
-            tree.AddBranch(new double[] { 0, 1, 3, 1 });
-            tree.AddBranch(new double[] { 1, 5, 6, 0 });
-            tree.AddBranch(new double[] { 1, 9, 8, -1 });
-            tree.AddBranch(new double[] { 2, 5, 4, -1 });
+            tree.AddBranch(new double[] { 0, 1, 3, 1 }, false);
+            tree.AddBranch(new double[] { 1, 5, 6, 0 }, false);
+            tree.AddBranch(new double[] { 1, 9, 8, -1 }, false);
+            tree.AddBranch(new double[] { 2, 5, 4, -1 }, false);
             
             Assert.AreEqual(0, head.Children.First().Value);
             Assert.AreEqual(1, head.Children.First().Children.First().Value);
@@ -66,10 +66,10 @@ namespace DecisionTreeTests
         {
             var head = new TreeNode(null, null, double.NaN);
             var tree = new SimpleDecisionTree(head);
-            tree.AddBranch(new double[] { 0, 1, 3, 1 });
-            tree.AddBranch(new double[] { 1, 5, 6, 0 });
-            tree.AddBranch(new double[] { 1, 9, 8, -1 });
-            tree.AddBranch(new double[] { 2, 5, 4, -1 });
+            tree.AddBranch(new double[] { 0, 1, 3, 1 }, false);
+            tree.AddBranch(new double[] { 1, 5, 6, 0 }, false);
+            tree.AddBranch(new double[] { 1, 9, 8, -1 }, false);
+            tree.AddBranch(new double[] { 2, 5, 4, -1 }, false);
 
             var answer = tree.Compute(new double[] {0, 1, 2});
             Assert.AreEqual(1, answer);
@@ -82,6 +82,23 @@ namespace DecisionTreeTests
 
             answer = tree.Compute(new double[] { 2, 0, 0 });
             Assert.AreEqual(-1, answer);
+        }
+
+
+        [TestMethod]
+        public void ComputeShouldFavorAnObservedBranch()
+        {
+            var head = new TreeNode(null, null, double.NaN);
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3, 1 }, false);
+            tree.AddBranch(new double[] { 1, 5, 6, 0 }, false);
+            tree.AddBranch(new double[] { 1, 9, 8, -1 }, false);
+            tree.AddBranch(new double[] { 1, 9, 5, 0 }, true);
+            tree.AddBranch(new double[] { 2, 5, 4, -1 }, false);
+
+            var answer = tree.Compute(new double[] { 1, 8, 3 });
+            Assert.AreEqual(0, answer);            
+
         }
 
 

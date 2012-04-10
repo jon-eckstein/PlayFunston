@@ -64,9 +64,9 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
             //TODO: need to get rid of any duplicate observations...or maybe figure out a way to add weight to a given observation
 
             obs.IsObservedByUser = true;
-            repoService.AddObservation(obs);
+            //repoService.AddObservation(obs);
             //re-initialize the tree...
-            //TODO, this should happen offline has a background job.
+            //TODO: this should happen offline as a background job.
             InitDecisionTree();
         }
 

@@ -85,16 +85,16 @@
 		     <div data-bind="text: obsTime()" style="font-size:small"></div>
 	       </div>
            
-
+        <!--
 		<div style="margin-top:90px">
 			<dl>
 			   <dt>Webcam:</dt>
 			   <dd style="margin-left:-5px"><img src="http://www.flyfunston.org/newwebcam/panosmall.jpg"  hspace=5 vspace=5 border="0"></dd>
 			   <dd style="margin-left:0px">webcam provided by <a href="http://www.flyfunston.org">flying feathers hang gliding club</a></dd>
 			</dl>
-		</div>
+		</div>-->
        </div>
-       <!--
+       
        <div>
             <p>Would you take your dog to Fort Funston under these conditions? </p>
             <div id="buttonSet">
@@ -102,13 +102,21 @@
                 <button data-bind="click: function() { submitAnswer(0) }" class="btn maybe">Maybe</button>  
                 <button data-bind="click: function() { submitAnswer(-1) }" class="btn no">No</button>
             </div>
+            <div id="thanks" >
+                Thanks!
+            </div>
+            <div id="problem">
+                There was a problem submitting the data. Try again later.
+            </div>          
             <div id="submitResult">
             </div>
-       </div> -->
+       </div>
     </div>	
 </body>
   <script type="text/javascript">
       $(function () {
+          $('#thanks').hide();
+          $('#problem').hide(); 
 
           var viewModel = {
               self: this,
@@ -132,14 +140,15 @@
                   this.serverResult.GoFunston = val;
                   this.serverResult.IsObservedByUser = true;
                   $.post("/observation", this.serverResult)
-                    .success(function (jqxhr) { console.log(jqxhr); })
-                    .error(function () { alert("error"); });
+                    .success(function (jqxhr) { $("#thanks").show(); })
+                    .error(function () { $("#problem").show(); })
+                    .complete(function () { $("#buttonSet").hide(); });
 
               },
-              submitResultText : ko.observable('')
+              submitResultText: ko.observable('')
 
           };
-
+                   
           console.log(viewModel);
 
           $.ajax({
@@ -158,6 +167,11 @@
                   viewModel.windMph(result.WindMph);
                   viewModel.windGustMph(result.WindGustMph);
                   viewModel.goFunston(result.GoFunston);
+
+                  if (result.GoFunston == -5) {
+                      viewModel.isError(true);
+                  }
+
                   if (result.WindGustMph > 0) {
                       viewModel.windText(result.WindMph + ' MPH gusting to ' + result.WindGustMph + ' MPH')
                   } else {

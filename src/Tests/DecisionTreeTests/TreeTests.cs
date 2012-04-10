@@ -101,6 +101,22 @@ namespace DecisionTreeTests
 
         }
 
+        [TestMethod]
+        public void AddingAnObservedBranchWithSameValueShouldOverwriteTraingingBranch()
+        {
+            var head = new TreeNode(null, null, double.NaN);
+            var tree = new SimpleDecisionTree(head);
+            tree.AddBranch(new double[] { 0, 1, 3, 1 }, false);
+            tree.AddBranch(new double[] { 1, 5, 6, 0 }, false);
+            tree.AddBranch(new double[] { 1, 9, 8, -1 }, false);
+            tree.AddBranch(new double[] { 1, 9, 5, 0 }, true);
+            tree.AddBranch(new double[] { 2, 5, 4, -1 }, false);
+
+            //var answer = tree.Compute(new double[] { 1, 8, 3 });
+            //Assert.AreEqual(0, answer);
+
+        }
+
 
 
     }

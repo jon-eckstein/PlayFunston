@@ -63,10 +63,9 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
         }
 
 
-
-        public double[] ToDoubleArray()
+        public double[] GetTreeValues()
         {
-            return new[] { ConditionCode, Temp, WindChill, WindMph, WindGustMph, GoFunston };
+            return new[] { ConditionCode, Temp, WindChill, WindMph, WindGustMph };
         }
 
         private static int GetConditionCode(string weather)

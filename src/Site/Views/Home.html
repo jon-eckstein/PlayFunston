@@ -4,9 +4,10 @@
   <meta charset=utf-8>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Should I take my dog to Fort Funston now?</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <link href="Assets/bootstrap/css/bootstrap.css" rel="stylesheet"> 
   <script src="Assets/knockout/knockout-2.0.0.js" type="text/javascript" charset="utf-8"></script>	
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="Assets/bootstrap/js/bootstrap-tooltip.js" type="text/javascript" charset="utf-8"></script>	  
   <style type="text/css">
 	dl.myDl dd {
 	    margin-left:120px;
@@ -85,7 +86,7 @@
 		     <div data-bind="text: obsTime()" style="font-size:small"></div>
 	       </div>
            
-
+        
 		<div style="margin-top:90px">
 			<dl>
 			   <dt>Webcam:</dt>
@@ -94,21 +95,29 @@
 			</dl>
 		</div>
        </div>
-       <!--
+       
        <div>
-            <p>Would you take your dog to Fort Funston under these conditions? </p>
+            <p>Would you take your dog to Fort Funston under these conditions? <a href="#" rel="tooltip" title="In order to make the best decision,&#13;&#10;this site learns from your suggestions.&#13;&#10;Please contribute!">(why)</a> </p>
             <div id="buttonSet">
                 <button data-bind="click: function() { submitAnswer(1) }" class="btn yes" >Yes</button>  
                 <button data-bind="click: function() { submitAnswer(0) }" class="btn maybe">Maybe</button>  
                 <button data-bind="click: function() { submitAnswer(-1) }" class="btn no">No</button>
             </div>
+            <div id="thanks" class="yes" >
+                Thanks!
+            </div>
+            <div id="problem" class="no">
+                There was a problem submitting the data. Please try again later.
+            </div>          
             <div id="submitResult">
             </div>
-       </div> -->
+       </div>
     </div>	
 </body>
   <script type="text/javascript">
       $(function () {
+          $('#thanks').hide();
+          $('#problem').hide(); 
 
           var viewModel = {
               self: this,
@@ -132,14 +141,15 @@
                   this.serverResult.GoFunston = val;
                   this.serverResult.IsObservedByUser = true;
                   $.post("/observation", this.serverResult)
-                    .success(function (jqxhr) { console.log(jqxhr); })
-                    .error(function () { alert("error"); });
+                    .success(function (jqxhr) { $("#thanks").show(); })
+                    .error(function () { $("#problem").show(); })
+                    .complete(function () { $("#buttonSet").hide(); });
 
               },
-              submitResultText : ko.observable('')
+              submitResultText: ko.observable('')
 
           };
-
+                   
           console.log(viewModel);
 
           $.ajax({
@@ -158,6 +168,11 @@
                   viewModel.windMph(result.WindMph);
                   viewModel.windGustMph(result.WindGustMph);
                   viewModel.goFunston(result.GoFunston);
+
+                  if (result.GoFunston == -5) {
+                      viewModel.isError(true);
+                  }
+
                   if (result.WindGustMph > 0) {
                       viewModel.windText(result.WindMph + ' MPH gusting to ' + result.WindGustMph + ' MPH')
                   } else {

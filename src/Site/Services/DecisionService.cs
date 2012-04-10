@@ -43,7 +43,7 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
         {
             try
             {                
-                var input = new double[] { obs.ConditionCode, obs.Temp, obs.WindChill, obs.WindMph, obs.WindGustMph };
+                var input = obs.GetTreeValues();
                 return tree.Compute(input);
             }
             catch (Exception ex)
@@ -72,8 +72,8 @@ namespace ShouldITakeMyDogToFortFunstonNow.Services
 
         private void TrainTree(IEnumerable<CurrentObservation> trainingData)
         {            
-            foreach (var obs in trainingData)                
-                tree.AddBranch(obs.ToDoubleArray(), obs.IsObservedByUser);                            
+            foreach (var obs in trainingData)
+                tree.AddBranch(obs.GetTreeValues(), obs.GoFunston, obs.IsObservedByUser);                            
         }
 
         private IEnumerable<CurrentObservation> GetTrainingData()

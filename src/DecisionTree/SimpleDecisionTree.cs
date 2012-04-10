@@ -20,7 +20,7 @@ namespace DecisionTree
         {            
         }
 
-        public bool AddBranch(double[] newVals, bool isObserved)
+        public bool AddBranch(double[] newVals, double answer, bool isObserved)
         {
             currentNode = rootNode;
             foreach (var val in newVals)
@@ -34,10 +34,27 @@ namespace DecisionTree
                 }
                 else
                 {
-                    //if there exist a child with the same value then just move to the next value..
+                    //if there exist a child with the same value then just move to the next value..                    
                     var sameValNode = currentNode.Children.FirstOrDefault(n => n.Value == val);
                     if (sameValNode != null)
-                        currentNode = sameValNode;
+                    {
+                        if (isObserved)
+                        {
+                            if (sameValNode is ObservedTreeNode)
+                                currentNode = sameValNode;
+                            else
+                            {                                
+                                var newObserved = new ObservedTreeNode(sameValNode.Parent, sameValNode.Children.ToList(), val);
+                                currentNode.Children.Remove(sameValNode);
+                                currentNode.Children.Add(newObserved);
+                                currentNode = newObserved;
+                            }
+                        }
+                        else
+                        {
+                            currentNode = sameValNode;
+                        }
+                    }
                     else //otherwise add the new branch as a child...                    
                         addNewNode = true;
                 }
@@ -55,6 +72,15 @@ namespace DecisionTree
                     currentNode = newChild;
                 }
             }
+
+            //we're at the last value, so now we need to add the answer node...
+            //if any answers already exist then we replace the current answer with this answer.
+            currentNode.Children.Clear();
+            if (isObserved)
+                currentNode.Children.Add(new ObservedTreeNode(currentNode, null, answer));
+            else
+                currentNode.Children.Add(new TrainedTreeNode(currentNode, null, answer));
+            
 
             return true;
         }
@@ -83,13 +109,13 @@ namespace DecisionTree
                 }
             }
 
+
             //return the child of the last node...there should be exactly one child...
             if (currentNode.Children.Count == 1)
                 return currentNode.Children.First().Value;                
             else
                 throw new Exception("This tree ain't right.");
                 
-        }
-        
+        }               
     }
 }

@@ -74,8 +74,8 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
             if (weather.Contains(new[] { "Clear", "Partly Cloudy", "Scattered Clouds", "Haze" }))
                 return (int)Conditions.Good;
 
-            if (weather.Contains(new[] { "Drizzle", "Mostly Cloudy", "Overcast", "Fog", "Mist" }))
-                return (int)Conditions.Ok;
+            if (weather.Contains(new[] { "Mostly Cloudy", "Overcast", "Fog", "Mist" }))
+                return (int)Conditions.Maybe;
 
             return (int)Conditions.Bad;
         }        

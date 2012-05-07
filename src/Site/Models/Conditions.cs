@@ -7,8 +7,8 @@ namespace ShouldITakeMyDogToFortFunstonNow.Models
 {
     public enum Conditions
     {
-        Good = 0,
-        Ok = 1,
+        Maybe = 0,
+        Good = 1,
         Bad = 2
     }
 }
